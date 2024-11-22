@@ -5,7 +5,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 
-def train_and_test_model(model_class, model_name, dataset_filepath='../../data',
+def train_and_test_model(model_class, model_name, dataset_filepath='../../../data',
                          batch_size=32, epochs=350, learning_rate=0.01,
                          momentum=0.9, weight_decay=0.001, gamma=0.1,
                          milestones=[200, 250, 300]):
