@@ -13,8 +13,8 @@ def train_and_test_model(model, model_name, dataset_filepath='../../data',
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     transform = transforms.Compose([
-        transforms.Resize((256, 256)),  # 先调整到256x256
-        transforms.RandomCrop(224),  # 然后随机裁剪到224x224
+        transforms.Resize((256, 256)),  
+        transforms.RandomCrop(224),  
         transforms.RandomHorizontalFlip(),
         transforms.RandomRotation(10),
         transforms.ToTensor(),
@@ -32,7 +32,7 @@ def train_and_test_model(model, model_name, dataset_filepath='../../data',
 
     criteria = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate, momentum=momentum, weight_decay=weight_decay)
-    # scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=milestones, gamma=gamma)
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=milestones, gamma=gamma)
 
     best_loss = float("inf")
     best_epoch = -1
@@ -88,7 +88,7 @@ def train_and_test_model(model, model_name, dataset_filepath='../../data',
 
     for epoch in range(epochs):
         train(epoch)
-        # scheduler.step()
+        scheduler.step()
         best_loss, best_epoch = test(epoch, best_loss, best_epoch)
 
 
@@ -110,4 +110,4 @@ if __name__ == '__main__':
     from models.Inception import GoogleNet
 
     googlenet = GoogleNet(3, 10)
-    train_and_test_model(googlenet, 'GoogleNet', epochs=400, batch_size=64, num_workers=8)
+    train_and_test_model(googlenet, 'GoogleNet', epochs=350, batch_size=128, num_workers=8)
